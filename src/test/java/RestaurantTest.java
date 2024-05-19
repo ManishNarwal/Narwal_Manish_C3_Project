@@ -4,6 +4,7 @@ import org.mockito.Mockito;
 
 import java.time.LocalTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -67,5 +68,25 @@ class RestaurantTest {
     public void calculateOrderValue_shouldThrowException_whenItemDoesNotExist() {
         List<String> itemNames = Arrays.asList("Pizza", "Fries");
         assertThrows(itemNotFoundException.class, () -> restaurant.calculateOrderValue(itemNames));
+    }
+    @Test
+    public void calculateOrderValue_shouldReturnTotalValue_whenItemsExist() throws itemNotFoundException {
+        List<String> itemNames = Arrays.asList("Sweet corn soup", "Vegetable lasagne");
+        int orderValue = restaurant.calculateOrderValue(itemNames);
+        assertEquals(388, orderValue);
+    }
+
+    @Test
+    public void calculateOrderValue_shouldReturnZero_whenNoItems() throws itemNotFoundException {
+        List<String> itemNames = Collections.emptyList();
+        int orderValue = restaurant.calculateOrderValue(itemNames);
+        assertEquals(0, orderValue);
+    }
+
+    @Test
+    public void calculateOrderValue_shouldReturnCorrectValue_whenSingleItemExists() throws itemNotFoundException {
+        List<String> itemNames = Arrays.asList("Sweet corn soup");
+        int orderValue = restaurant.calculateOrderValue(itemNames);
+        assertEquals(119, orderValue);
     }
 }
