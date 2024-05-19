@@ -3,6 +3,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -25,7 +27,7 @@ class RestaurantTest {
     @Test
     public void is_restaurant_open_should_return_true_if_time_is_between_opening_and_closing_time(){
         when(restaurantMock.getCurrentTime()).thenReturn(LocalTime.parse("11:30:00"));
-        assertTrue(restaurant.isRestaurantOpen());
+        assertTrue(restaurantMock.isRestaurantOpen());
     }
 
     @Test
@@ -60,4 +62,10 @@ class RestaurantTest {
                 ()->restaurant.removeFromMenu("French fries"));
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    @Test
+    public void calculateOrderValue_shouldThrowException_whenItemDoesNotExist() {
+        List<String> itemNames = Arrays.asList("Pizza", "Fries");
+        assertThrows(itemNotFoundException.class, () -> restaurant.calculateOrderValue(itemNames));
+    }
 }

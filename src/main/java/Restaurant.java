@@ -3,11 +3,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Restaurant {
-    public LocalTime openingTime;
-    public LocalTime closingTime;
     private final String name;
     private final String location;
     private final List<Item> menu = new ArrayList<Item>();
+    public LocalTime openingTime;
+    public LocalTime closingTime;
 
     public Restaurant(String name, String location, LocalTime openingTime, LocalTime closingTime) {
         this.name = name;
@@ -64,4 +64,15 @@ public class Restaurant {
         return name;
     }
 
+    public int calculateOrderValue(List<String> itemNames) throws itemNotFoundException {
+        int total = 0;
+        for (String itemSelected : itemNames) {
+            Item item = findItemByName(itemSelected);
+            if (item == null) {
+                throw new itemNotFoundException(itemSelected);
+            }
+            total += item.getPrice();
+        }
+        return total;
+    }
 }
